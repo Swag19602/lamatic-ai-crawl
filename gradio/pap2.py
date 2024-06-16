@@ -5,7 +5,6 @@ from weaviate import Client as WeaviateClient
 from weaviate.auth import AuthApiKey
 from openai import OpenAI
 import google.generativeai as genai
-from transformers import pipeline
 # Load environment variables from .env file
 load_dotenv()
 # Get the API keys from environment variables
@@ -22,7 +21,6 @@ client = WeaviateClient(
         "X-HuggingFace-Api-Key": HUGGING_FACE
     }
 )
-feature_extractor = pipeline('feature-extraction', model='sentence-transformers/all-MiniLM-L6-v2')
 def query_weaviate(query, class_name):
     try:
         response = client.query.get(class_name, ["url content"]) \
@@ -35,7 +33,7 @@ def query_weaviate(query, class_name):
         return f"Error querying Weaviate: {e}"
 
 # query = "stackoverflow" 
-query = "parrot"
+query = "Akbar"
 class_name="WebPage_1718554776219"
 weaviate_data = query_weaviate(query, class_name)
 print(weaviate_data,'weaviate data')
