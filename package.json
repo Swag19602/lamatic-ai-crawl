@@ -11,7 +11,23 @@
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.4"
+    "next": "14.2.4",
+    "@huggingface/inference": "^2.7.0",
+    "@supabase/supabase-js": "^2.43.4",
+    "@types/cheerio": "^0.22.35",
+    "apollo-server-micro": "^3.13.0",
+    "axios": "^1.7.2",
+    "fs": "^0.0.1-security",
+    "graphql": "^16.8.1",
+    "graphql-request": "^7.0.1",
+    "jsdom": "^24.1.0",
+    "micro-cors": "^0.1.1",
+    "node-fetch": "^3.3.2",
+    "path": "^0.12.7",
+    "robots-parser": "^3.0.1",
+    "weaviate-client": "^3.0.3",
+    "weaviate-ts-client": "^2.2.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "typescript": "^5",
@@ -21,6 +37,9 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.4"
+    "eslint-config-next": "14.2.4",
+    "@types/jsdom": "^21.1.7",
+    "@types/micro-cors": "^0.1.5",
+    "@types/xml2js": "^0.4.14"
   }
 }

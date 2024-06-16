@@ -1,40 +1,124 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Lamatic Crawler App
 
-## Getting Started
+## Description
 
-First, run the development server:
+Lamatic Crawler App is a Next.js application designed to crawl a sitemap and index its pages. It features a chatbot that allows users to ask questions based on the crawled data. It performs Retrieval-Augmented Generation (RAG) to answer user questions based on the indexed data. This application leverages OpenAI's API and Weaviate for data indexing and retrieval.
+# Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+	- Node.js and npm
+	- Python 3.12 or later
+	- Weaviate API Key
+	- OpenAI API Key
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    - Sitemap URL crawling and indexing.
+    - Interactive chatbot for querying the indexed data.
+    - Integration with OpenAI API for natural language processing.
+    - Easy setup and configuration with environment variables.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Installation
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+To get started with the Lamatic Crawler App, follow these steps:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. **Clone the repository:**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+    ```sh
+    git clone https://github.com/Swag19602/lamatic-crawler-app
+    cd lamatic-crawler-app
+    ```
 
-## Learn More
+2. **Install dependencies:**
 
-To learn more about Next.js, take a look at the following resources:
+    ```sh
+    npm install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Create and configure the environment file:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    Create a `.env.local` file in the root directory and add the following environment variables:
 
-## Deploy on Vercel
+    ```plaintext
+    SUPABASE_KEY=your_supabase_key
+    WEAVECLIENT_HOST=your_weaveclient_host
+    WEAVECLIENT_KEY=your_weaveclient_key
+    SUPABASE_URL=your_supabase_url
+    OPENAI_API_KEY=your_openapi_key
+    ```
+## Frontend (Gradio App)
+1.	**Create a virtual environment and install dependencies:**
+    ```sh
+        cd gradio
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+    ```
+3. **Create and configure the environment file:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    Create a `.env.local` file in the root directory and add the following environment variables:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    ```plaintext
+    WEAVECLIENT_HOST=your_weaveclient_host
+    WEAVECLIENT_KEY=your_weaveclient_key
+    OPENAI_API_KEY=your_openapi_key
+    ```
+5.	**Run the Gradio app:**
+    ```sh
+        python app.py
+    ```
+## Usage
+
+1. **Run the development server:**
+
+    ```sh
+    npm run dev
+    ```
+
+2. **Open the application:**
+
+    Visit `http://localhost:3000` in your web browser.
+
+3. **Crawl a sitemap:**
+
+    Enter the sitemap URL into the application to begin crawling and indexing the pages.
+
+4. **Use the chatbot:**
+
+    You will be navigated to  to chatbot interface once crawling and indexing is successfull, you can  use the chatbot to ask questions based on the indexed data.
+
+## Notes
+
+	- Ensure the URLs in your crawledData.json are accessible and contain meaningful content for better query results.
+	- Adjust the Gradio app and indexing script as needed to fit your specific requirements and environment.
+
+## Configuration
+
+- **Environment Variables:**
+    - `OPENAI_API_KEY`: Your OpenAI API key for natural language processing.
+    - `WEAVIATE_HOST`: Host address for the Weaviate instance used for data indexin- `
+	- `WEAVECLIENT_KEY`: API key for accessing Weaviate.
+	- `SUPABASE_KEY`: API key for accessing Supabase.
+	- `SUPABASE_URL`: URL for the Supabase instance.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes and commit them (`git commit -m 'Add new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Open a Pull Request.
+
+
+## Contact Information
+
+For questions or suggestions, please contact:
+
+- **Name:** Swagatam Bhattacharjee
+- **GitHub:** https://github.com/Swag19602/
+
+## Demo
+
+A demo video of the Lamatic Crawler App can be found : https://github.com/Swag19602/
+
+---
