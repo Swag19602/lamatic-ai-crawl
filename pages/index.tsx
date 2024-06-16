@@ -21,7 +21,6 @@ const Home = () => {
         }),
       });
       const result = await response.json();
-      console.log('Full response:', result);
 
       if (result.errors) {
         setMessage(result.errors[0].message);
@@ -32,14 +31,13 @@ const Home = () => {
         const crawlResult = await triggerCrawl(sitemapUrl);
         // Extract class name from response
         if (crawlResult) {
-          console.log(crawlResult,'crawlResult')
           const match = crawlResult.match(/Class name: (\w+)/);
           if (match) {
             const className = match[1];
             // Navigate to the chatbot page after crawling and indexing are complete
             setTimeout(() => {
               window.location.href = `http://localhost:7860?className=${className}`;
-            }, 5000);
+            }, 3000);
           }
         }
       }

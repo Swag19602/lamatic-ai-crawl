@@ -1,4 +1,3 @@
-// File: pages/api/graphql.ts
 import { ApolloServer } from "apollo-server-micro";
 import { typeDefs, resolvers } from "../../lib/schema";
 import { NextApiRequest, NextApiResponse } from "next";

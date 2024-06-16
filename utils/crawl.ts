@@ -1,4 +1,3 @@
-// import fetch from "node-fetch";
 import * as cheerio from "cheerio";
 import * as fs from "fs";
 import * as path from "path";
@@ -34,25 +33,6 @@ export const crawl = async ({ url, ignore }: { url: string; ignore: string },ret
     const links = $("a")
       .map((i, link) => (link as cheerio.TagElement).attribs?.href)
       .get();
-
-    const imageUrls = $("img")
-      .map((i, img) => (img as cheerio.TagElement).attribs?.src)
-      .get();
-
-    // imageUrls.forEach((imageUrl) => {
-
-    //   fetch(getUrl(imageUrl, host, protocol))
-    //     .then((response) => {
-    //       if (response.body) {
-    //         const filename = path.basename(imageUrl);
-    //         const dest = fs.createWriteStream(`images/${filename}`);
-    //         response.body.pipe(dest);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error(`Error fetching image ${imageUrl}:`, error);
-    //     });
-    // });
 
     const crawlPromises = links
       .filter((link) => link && link.includes(host) && !link.includes(ignore))
@@ -92,7 +72,6 @@ const fetchWithRetry = async (
       return response;
     } catch (error) {
       if (i === retryCount - 1) throw error;
-      // console.log(`Retrying fetch for ${url} (${i + 1}/${retryCount})`);
     }
   }
 };

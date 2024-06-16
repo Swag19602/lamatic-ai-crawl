@@ -1,42 +1,32 @@
-from os import environ
-from dotenv import load_dotenv
+from config import WEAVIATE_API_KEY,WEAVIATE_URL,OPENAI_API_KEY,GEMINI_API_KEY,HUGGING_FACE
 import gradio as gr
 from weaviate import Client as WeaviateClient
 from weaviate.auth import AuthApiKey
 from openai import OpenAI
 import google.generativeai as genai
-# Load environment variables from .env file
-load_dotenv()
-# Get the API keys from environment variables
-WEAVIATE_API_KEY = environ.get("WEAVECLIENT_KEY")
-WEAVIATE_URL = environ.get("WEAVECLIENT_URL")
-OPENAI_API_KEY = environ.get('OPENAI_API')
-GEMINI_API_KEY=environ.get('GEMINI_API_KEY')
 
 # Set your OpenAI API key
 openai = OpenAI(api_key=OPENAI_API_KEY)
 
+# Access your API key as an environment variable.
+genai.configure(api_key=GEMINI_API_KEY)
+
 # Initialize Weaviate client
 client = WeaviateClient(
-    url="https://lamatic-g39ejbn0.weaviate.network",
+    url=WEAVIATE_URL,
     auth_client_secret=AuthApiKey(api_key=WEAVIATE_API_KEY),
+    additional_headers={
+        "X-HuggingFace-Api-Key": HUGGING_FACE
+    }
 )
-# WebPage_1718520174554
-# WebPage_1718448732375
 # Function to query Weaviate
 def query_weaviate(query, class_name):
     try:
-        response = (
-            client.query
-            .get(class_name, ["url", "content"])
-            .with_near_text({"concepts": [query]})
-            .with_limit(5)  # Limit the number of results
-            .do()
-        )
-        if 'errors' in response:
-            print(response['errors'], 'errors')
-            return f"Error querying Weaviate: {response['errors'][0]['message']}"
-        return response["data"]["Get"][class_name]
+        response = client.query.get(class_name, ["url content"]) \
+        .with_near_text({"concepts": [query], "certainty": 0.6}) \
+        .with_limit(5) \
+        .do()
+        return response['data']['Get'][class_name]
     except Exception as e:
         print(f"Error querying Weaviate: {e}")
         return f"Error querying Weaviate: {e}"
@@ -65,9 +55,6 @@ def ask_chatgpt(data, query):
 
 def ask_google_gemini(data,query):
     prompt = f"Based on the following data: {data}, answer the following question: {query}"
-    # prompt = "Write a story about a magic backpack."
-    # Access your API key as an environment variable.
-    genai.configure(api_key=GEMINI_API_KEY)
     # Choose a model that's appropriate for your use case.
     model = genai.GenerativeModel('gemini-1.5-flash')
     response = model.generate_content(prompt, stream=True)
@@ -81,12 +68,10 @@ def ask_google_gemini(data,query):
 # Function to handle the chat
 def api_calling(query, class_name):
     weaviate_data = query_weaviate(query, class_name)
-    print(weaviate_data,'weaviate data')
     if "Error" in weaviate_data:
         return weaviate_data
     # return ask_chatgpt(weaviate_data, query)
-    # return ask_google_gemini('weaviate_data',query)
-    return weaviate_data
+    return ask_google_gemini('weaviate_data',query)
 
 def message_and_history(input, history, class_name):
     history = history or []
