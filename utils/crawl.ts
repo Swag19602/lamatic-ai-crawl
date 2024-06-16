@@ -59,7 +59,7 @@ export const crawl = async ({ url, ignore }: { url: string; ignore: string },ret
     saveCrawledData(crawledLinks);
   }
 };
-const fetchWithRetry = async (
+export const fetchWithRetry = async (
   url: string,
   options: any,
   retryCount: number
@@ -84,7 +84,7 @@ const readCrawledData = (): any[] => {
   return JSON.parse(data);
 };
 
-const saveCrawledData = (crawledLinks: string[]) => {
+export const saveCrawledData = (crawledLinks: string[]) => {
   const filePath = path.join(process.cwd(), "public", "crawledData.json");
   const existingData = readCrawledData();
 

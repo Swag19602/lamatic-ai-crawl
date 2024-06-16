@@ -1,7 +1,7 @@
 import { gql } from "apollo-server-micro";
 import { createClient } from "@supabase/supabase-js";
-import { crawl, clearCrawledData } from "@/utils/crawl";
-import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/env";
+import { crawl, clearCrawledData } from "../utils/crawl";
+import { SUPABASE_KEY, SUPABASE_URL } from "../utils/env";
 import { indexing } from "@/utils/indexing";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -31,8 +31,8 @@ export const resolvers = {
       return "Sitemap URL saved successfully. Crawling and Indexing in progress.....";
     },
     crawlSitemap: async(_: any, { url }: { url: string }) => {
-      clearCrawledData(); // Clear existing data before starting a new crawl session
-      await crawl({ url: url, ignore: "/search" });
+      // clearCrawledData(); // Clear existing data before starting a new crawl session
+      // await crawl({ url: url, ignore: "/search" });
       const className = await indexing(); // Indexing the crawled web pages
       if (className) {
         // clearCrawledData();

@@ -19,7 +19,7 @@ const extractTextFromHTML = (html: any): string => {
   return dom.window.document.body.textContent || "";
 };
 
-async function getData() {
+export async function getData() {
   const filePath = path.join(process.cwd(), "public", "crawledData.json");
   const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
   const elements: { url: string; content: string }[] = [];
