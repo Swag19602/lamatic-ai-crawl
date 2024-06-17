@@ -122,7 +122,7 @@ For questions or suggestions, please contact:
 - **GitHub:** https://github.com/Swag19602/
 - **LinkedIn:** https://www.linkedin.com/in/swagatam-bhattacharjee-5aa00a1b2/
 - **Portfolio:** https://swag-portfolio.vercel.app/
-- **EmailId:** swagatambhattacharjee02@gmail.com
+- **Email:** swagatambhattacharjee02@gmail.com
 
 
 ## Demo
