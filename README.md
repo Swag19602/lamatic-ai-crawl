@@ -9,11 +9,13 @@ Lamatic Crawler App is a Next.js application designed to crawl a sitemap and ind
 	- Python 3.12 or later
 	- Weaviate API Key
 	- OpenAI API Key
+    - Google GEMINI API (FREE)
 ## Features
 
     - Sitemap URL crawling and indexing.
     - Interactive chatbot for querying the indexed data.
     - Integration with OpenAI API for natural language processing.
+    - Integration with Google Gemini for natural language processing.
     - Easy setup and configuration with environment variables.
 
 ## Installation
@@ -60,6 +62,7 @@ To get started with the Lamatic Crawler App, follow these steps:
     WEAVECLIENT_HOST=your_weaveclient_host
     WEAVECLIENT_KEY=your_weaveclient_key
     OPENAI_API_KEY=your_openapi_key
+    GEMINI_API_KEY=your_gemini_key
     ```
 5.	**Run the Gradio app:**
     ```sh
@@ -93,6 +96,7 @@ To get started with the Lamatic Crawler App, follow these steps:
 ## Configuration
 
 - **Environment Variables:**
+    - `GEMINI_API_KEY`: Your Google GEMINI API key for natural language processing. (FREE)
     - `OPENAI_API_KEY`: Your OpenAI API key for natural language processing.
     - `WEAVIATE_HOST`: Host address for the Weaviate instance used for data indexin- `
 	- `WEAVECLIENT_KEY`: API key for accessing Weaviate.
@@ -116,6 +120,10 @@ For questions or suggestions, please contact:
 
 - **Name:** Swagatam Bhattacharjee
 - **GitHub:** https://github.com/Swag19602/
+- **LinkedIn:** https://www.linkedin.com/in/swagatam-bhattacharjee-5aa00a1b2/
+- **Portfolio:** https://swag-portfolio.vercel.app/
+- **EmailId:** swagatambhattacharjee02@gmail.com
+- 
 
 ## Demo
 

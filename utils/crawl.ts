@@ -40,23 +40,31 @@ export const crawl = async ({ url, ignore }: { url: string; ignore: string },ret
         const absoluteLink = getUrl(link, host, protocol);
         try {
           new URL(absoluteLink); // Validate the URL
+          if (!crawledLinks.includes(absoluteLink)){
           crawledLinks.push(absoluteLink);
           return crawl({
             url: absoluteLink,
             ignore,
           });
+        }
         } catch (error) {
           return Promise.resolve(); // Return resolved promise for invalid URLs to continue processing
         }
       });
 
     // Wait for all nested crawling operations to complete
+     await Promise.all(crawlPromises);
 
   } catch (error) {
     return false;
   }
   if (crawledLinks.length > 0) {
-    saveCrawledData(crawledLinks);
+    const setCrawledLinks:string[]=crawledLinks.filter((link)=>{
+      if(!checkContainsData(link)){
+        return link
+      }
+    })
+    saveCrawledData(setCrawledLinks);
   }
 };
 export const fetchWithRetry = async (
@@ -96,6 +104,15 @@ export const saveCrawledData = (crawledLinks: string[]) => {
     newData = [{ links: crawledLinks }];
   }
   fs.writeFileSync(filePath, JSON.stringify(newData, null, 2));
+};
+
+export const checkContainsData = (link: string) => {
+  const existingData = readCrawledData();
+
+  if (existingData.length > 0 && Array.isArray(existingData[0].links)) {
+    return existingData[0].links.includes(link);
+  }
+  return false;
 };
 
 
