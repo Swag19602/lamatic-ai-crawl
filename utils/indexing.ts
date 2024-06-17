@@ -19,19 +19,24 @@ const extractTextFromHTML = (html: any): string => {
   return dom.window.document.body.textContent || "";
 };
 
+const sleep = (ms: number | undefined) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 export async function getData() {
+  clearIndexedData();
   const filePath = path.join(process.cwd(), "public", "crawledData.json");
   const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
   const elements: { url: string; content: string }[] = [];
-  for (const entry of data) {
-    for (const link of entry.links) {
+  const fetchPromises = data.map(async (entry: any) => {
+    const linkPromises = entry.links.map(async (link: string) => {
+      await sleep(600);
       const fetchedData = await fetchAndIndex(link);
       if (fetchedData) {
         elements.push(fetchedData);
       }
-    }
-  }
-  clearIndexedData();
+    });
+    await Promise.all(linkPromises);
+  });
+  await Promise.all(fetchPromises);
   saveIndexedData(elements, `indexData`);
 }
 const fetchAndIndex = async (
@@ -48,7 +53,6 @@ const fetchAndIndex = async (
       return {
         url: link,
         content: textContent
-          // "This organ removes excess glucose from the blood & stores it as glycogen",
       };
     } else {
       console.warn(`No content extracted from URL ${link}`);
@@ -61,7 +65,7 @@ const fetchAndIndex = async (
 };
 export async function indexing() {
   const newClassName = `WebPage_${Date.now()}`;
-  // await getData();
+  await getData();
   console.log("indexData Saved");
   const filePath = path.join(process.cwd(), "public", "indexData.json");
   const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
@@ -129,9 +133,10 @@ async function queryWeaviate(className: string, queryText: string) {
       .get()
       .withClassName(className)
       .withFields("url content")
-      .withNearText({ concepts: ["Akbar"], certainty: 0.6 })
+      .withNearText({ concepts: [queryText], certainty: 0.6 })
       .withLimit(5)
       .do();
+      console.log(result.data['Get'][className].length)
   } catch (error) {
     console.error("Error querying Weaviate:", error);
   }

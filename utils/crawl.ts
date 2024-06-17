@@ -51,21 +51,24 @@ export const crawl = async ({ url, ignore }: { url: string; ignore: string },ret
           return Promise.resolve(); // Return resolved promise for invalid URLs to continue processing
         }
       });
+      if (crawledLinks.length > 0) {
+        const setCrawledLinks: string[] = crawledLinks.filter((link) => {
+          if (!checkContainsData(link)) {
+            return link;
+          }
+        });
 
+        saveCrawledData([url,...setCrawledLinks]);
+        return;
+      }
+      
     // Wait for all nested crawling operations to complete
      await Promise.all(crawlPromises);
 
   } catch (error) {
     return false;
   }
-  if (crawledLinks.length > 0) {
-    const setCrawledLinks:string[]=crawledLinks.filter((link)=>{
-      if(!checkContainsData(link)){
-        return link
-      }
-    })
-    saveCrawledData(setCrawledLinks);
-  }
+  
 };
 export const fetchWithRetry = async (
   url: string,
@@ -97,12 +100,15 @@ export const saveCrawledData = (crawledLinks: string[]) => {
   const existingData = readCrawledData();
 
   let newData;
-  if (existingData.length > 0 && Array.isArray(existingData[0].links)) {
-    existingData[0].links.push(...crawledLinks);
-    newData = existingData;
-  } else {
-    newData = [{ links: crawledLinks }];
-  }
+  
+    if (existingData.length > 0 && Array.isArray(existingData[0].links)) {
+      if ((existingData[0].links.length < 10)) {
+        existingData[0].links.push(...crawledLinks);
+      }
+      newData = existingData;
+    } else {
+      newData = [{ links: crawledLinks }];
+    }
   fs.writeFileSync(filePath, JSON.stringify(newData, null, 2));
 };
 

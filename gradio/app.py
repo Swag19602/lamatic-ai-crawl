@@ -68,10 +68,11 @@ def ask_google_gemini(data,query):
 # Function to handle the chat
 def api_calling(query, class_name):
     weaviate_data = query_weaviate(query, class_name)
+    print(weaviate_data,'data')
     if "Error" in weaviate_data:
         return weaviate_data
     # return ask_chatgpt(weaviate_data, query)
-    return ask_google_gemini('weaviate_data',query)
+    return ask_google_gemini(weaviate_data,query)
 
 def message_and_history(input, history, class_name):
     history = history or []
@@ -91,7 +92,7 @@ def get_class_name_from_request(request: gr.Request):
 # Define Gradio interface
 block = gr.Blocks(theme=gr.themes.Monochrome())
 with block:
-    gr.Markdown("<h1><center>ChatGPT ChatBot with Gradio and OpenAI</center></h1>")
+    gr.Markdown("<h1><center>ChatBot with Gradio and OpenAI & Google Gemini</center></h1>")
     state = gr.State()
     chatbot = gr.Chatbot()
     message = gr.Textbox(placeholder="Enter your query here...")
