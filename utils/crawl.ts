@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 const seenUrls: { [key: string]: boolean } = {};
-
+const crawlingLimit=10
 const getUrl = (link: string, host: string, protocol: string) => {
   if (link.includes("http")) {
     return link;
@@ -102,7 +102,7 @@ export const saveCrawledData = (crawledLinks: string[]) => {
   let newData;
   
     if (existingData.length > 0 && Array.isArray(existingData[0].links)) {
-      if ((existingData[0].links.length < 10)) {
+      if ((existingData[0].links.length < crawlingLimit)) {
         existingData[0].links.push(...crawledLinks);
       }
       newData = existingData;

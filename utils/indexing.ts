@@ -13,6 +13,7 @@ const client: WeaviateClient = weaviateClient;
 
 const hfClient = new HfInference(HUGGING_FACE);
 
+const fetchDelay=600
 
 const extractTextFromHTML = (html: any): string => {
   const dom = new JSDOM(html);
@@ -28,7 +29,7 @@ export async function getData() {
   const elements: { url: string; content: string }[] = [];
   const fetchPromises = data.map(async (entry: any) => {
     const linkPromises = entry.links.map(async (link: string) => {
-      await sleep(600);
+      await sleep(fetchDelay);
       const fetchedData = await fetchAndIndex(link);
       if (fetchedData) {
         elements.push(fetchedData);
